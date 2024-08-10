@@ -1,5 +1,5 @@
 <template>
-  <form class="max-w-[540px]" @submit.prevent="submit" @keydown.esc="maybeClose">
+  <form class="max-w-[540px]" @submit.prevent="submit" @keydown.esc="maybeClose"> // @doAThing="doAThing"
     <header class="gap-4">
       <img :src="coverUrl" alt="" class="w-[84px] aspect-square object-cover object-center rounded-md">
       <div class="flex-1 flex flex-col justify-center overflow-hidden">
@@ -152,14 +152,18 @@
               title="Lyrics"
             />
           </FormRow>
+
+          // Anaglyphic assignment
           <FormRow>
-            <Btn>find lyrics online</Btn>
+            <Btn @click="doAThing">find lyrics online</Btn>
           </FormRow>
+
         </TabPanel>
       </TabPanelContainer>
     </Tabs>
 
     <footer>
+      <!-- <Btn type='doAThing'>find lyrics online</Btn> -->
       <Btn type="submit">Update</Btn>
       <Btn class="btn-cancel" white @click.prevent="maybeClose">Cancel</Btn>
     </footer>
@@ -167,7 +171,7 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, reactive, ref } from 'vue'
+import { computed, getCurrentInstance, reactive, ref } from 'vue'
 import { isEqual } from 'lodash'
 import { defaultCover, eventBus, pluralize } from '@/utils'
 import { songStore, SongUpdateData } from '@/stores'
@@ -251,8 +255,14 @@ const maybeClose = async () => {
     close()
     return
   }
-
   await showConfirmDialog('Discard all changes?') && close()
+}
+
+const doAThing = () =>
+{
+  console.log("did a thing!");
+  formData.lyrics = "the button did a thing!";
+  // songStore.update(songs, formData);
 }
 
 const submit = async () => {
