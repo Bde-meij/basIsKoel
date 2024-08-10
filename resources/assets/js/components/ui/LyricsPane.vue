@@ -64,3 +64,5 @@ pre {
   font-size: v-bind(fontSize);
 }
 </style>
+
+// how lyrics looks

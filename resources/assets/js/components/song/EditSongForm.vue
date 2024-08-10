@@ -152,6 +152,9 @@
               title="Lyrics"
             />
           </FormRow>
+          <FormRow>
+            <Btn>find lyrics online</Btn>
+          </FormRow>
         </TabPanel>
       </TabPanelContainer>
     </Tabs>
