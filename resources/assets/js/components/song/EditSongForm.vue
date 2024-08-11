@@ -1,5 +1,5 @@
 <template>
-  <form class="max-w-[540px]" @submit.prevent="submit" @keydown.esc="maybeClose"> // @doAThing="doAThing"
+  <form class="max-w-[540px]" @submit.prevent="submit" @keydown.esc="maybeClose">
     <header class="gap-4">
       <img :src="coverUrl" alt="" class="w-[84px] aspect-square object-cover object-center rounded-md">
       <div class="flex-1 flex flex-col justify-center overflow-hidden">
@@ -153,9 +153,8 @@
             />
           </FormRow>
 
-          // Anaglyphic assignment
           <FormRow>
-            <Btn @click="doAThing">find lyrics online</Btn>
+            <Btn @click="fetchLyrics">Fetch Lyrics</Btn>
           </FormRow>
 
         </TabPanel>
@@ -163,7 +162,6 @@
     </Tabs>
 
     <footer>
-      <!-- <Btn type='doAThing'>find lyrics online</Btn> -->
       <Btn type="submit">Update</Btn>
       <Btn class="btn-cancel" white @click.prevent="maybeClose">Cancel</Btn>
     </footer>
@@ -258,11 +256,22 @@ const maybeClose = async () => {
   await showConfirmDialog('Discard all changes?') && close()
 }
 
-const doAThing = () =>
+const fetchLyrics = async () =>
 {
-  console.log("did a thing!");
-  formData.lyrics = "the button did a thing!";
-  // songStore.update(songs, formData);
+  try
+  {
+    var urlStr = formData.artist_name + '/' + formData.title;
+    var rawLyrics = await (await fetch('https://api.lyrics.ovh/v1/'+urlStr)).text();
+    console.log(rawLyrics);
+    var parsedLyrics = JSON.parse(rawLyrics).lyrics;
+    console.log(parsedLyrics);
+    parsedLyrics = parsedLyrics.substr(parsedLyrics.search("\r\n")+2);
+    formData.lyrics = parsedLyrics;
+  }
+  catch (error: unknown)
+  {
+    useErrorHandler('dialog').handleHttpError("missingLyrics");
+  }
 }
 
 const submit = async () => {
