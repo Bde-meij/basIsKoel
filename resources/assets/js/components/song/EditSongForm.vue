@@ -152,6 +152,11 @@
               title="Lyrics"
             />
           </FormRow>
+
+          <FormRow>
+            <Btn @click="fetchLyrics">Fetch Lyrics</Btn>
+          </FormRow>
+
         </TabPanel>
       </TabPanelContainer>
     </Tabs>
@@ -164,7 +169,7 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, reactive, ref } from 'vue'
+import { computed, getCurrentInstance, reactive, ref } from 'vue'
 import { isEqual } from 'lodash'
 import { defaultCover, eventBus, pluralize } from '@/utils'
 import { songStore, SongUpdateData } from '@/stores'
@@ -248,8 +253,25 @@ const maybeClose = async () => {
     close()
     return
   }
-
   await showConfirmDialog('Discard all changes?') && close()
+}
+
+const fetchLyrics = async () =>
+{
+  try
+  {
+    var urlStr = formData.artist_name + '/' + formData.title;
+    var rawLyrics = await (await fetch('https://api.lyrics.ovh/v1/'+urlStr)).text();
+    console.log(rawLyrics);
+    var parsedLyrics = JSON.parse(rawLyrics).lyrics;
+    console.log(parsedLyrics);
+    parsedLyrics = parsedLyrics.substr(parsedLyrics.search("\r\n")+2);
+    formData.lyrics = parsedLyrics;
+  }
+  catch (error: unknown)
+  {
+    useErrorHandler('dialog').handleHttpError("missingLyrics");
+  }
 }
 
 const submit = async () => {
