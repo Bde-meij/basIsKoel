@@ -14,6 +14,8 @@ export const recentlyPlayedStore = {
     playables: [] as Playable[]
   }),
 
+  // get<T = any, R = AxiosResponse<T>>(url: string, config?: AxiosRequestConfig): Promise<R>;
+
   async fetch () {
     this.state.playables = songStore.syncWithVault(await http.get<Playable[]>('songs/recently-played'))
     return this.state.playables

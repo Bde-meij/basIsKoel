@@ -29,6 +29,11 @@ export interface SongUpdateResult {
   }
 }
 
+// export interface somestruct
+// {
+//   text: string;
+// }
+
 export interface SongListPaginateParams extends Record<string, any> {
   sort: MaybeArray<PlayableListSortField>
   order: SortOrder
@@ -120,11 +125,29 @@ export const songStore = {
     })
   },
 
+  // get<T = any, R = AxiosResponse<T>>(url: string, config?: AxiosRequestConfig): Promise<R>;
+  // async fetch () {
+  //   this.state.playables = songStore.syncWithVault(await http.get<Playable[]>('songs/recently-played'))
+  //   return this.state.playables
+  // },
+
+  async apifetch()
+  {
+    console.log("reached apifetch");
+    
+    var result = await http.get<string>('songs');
+
+    return (result);
+  },
+
   async update (songsToUpdate: Song[], data: SongUpdateData) {
+    console.log("backend trail: songstore, update()");
     if (songsToUpdate.some(song => !isSong(song))) {
       throw 'Only songs can be updated.'
     }
 
+
+    console.log("sending "+data+" and "+songsToUpdate.map(song => song.id)+" to http.put");
     const result = await http.put<SongUpdateResult>('songs', {
       data,
       songs: songsToUpdate.map(song => song.id)

@@ -186,6 +186,8 @@ import TabButton from '@/components/ui/tabs/TabButton.vue'
 import TabPanel from '@/components/ui/tabs/TabPanel.vue'
 import TabPanelContainer from '@/components/ui/tabs/TabPanelContainer.vue'
 
+// import axios from 'axios';
+
 const { showOverlay, hideOverlay } = useOverlay()
 const { toastSuccess } = useMessageToaster()
 const { showConfirmDialog } = useDialogBox()
@@ -256,15 +258,34 @@ const maybeClose = async () => {
   await showConfirmDialog('Discard all changes?') && close()
 }
 
+// const getMsg = () =>
+// {
+//   console.log(axios.get('msg'));
+// }
+
+
+// const getMessage = async () => {
+//   try {
+//     const response = await axios.get('/msg');
+//     const message = response.data.message;
+//     console.log(message); // Log message here after it is received
+//   } catch (error) {
+//     console.error("There was an error!", error);
+//   }
+// }
+
 const fetchLyrics = async () =>
 {
+  const result = await songStore.apifetch();
+  console.log(result);
+  // await getMessage();
   try
   {
     var urlStr = formData.artist_name + '/' + formData.title;
     var rawLyrics = await (await fetch('https://api.lyrics.ovh/v1/'+urlStr)).text();
-    console.log(rawLyrics);
+    // console.log(rawLyrics);
     var parsedLyrics = JSON.parse(rawLyrics).lyrics;
-    console.log(parsedLyrics);
+    // console.log(parsedLyrics);
     parsedLyrics = parsedLyrics.substr(parsedLyrics.search("\r\n")+2);
     formData.lyrics = parsedLyrics;
   }

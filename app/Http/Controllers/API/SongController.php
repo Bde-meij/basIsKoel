@@ -51,6 +51,12 @@ class SongController extends Controller
         return SongResource::make($this->songRepository->getOne($song->id, $this->user));
     }
 
+    public function apifetch()
+    {
+        $reply = "reached apifetch in php!";
+        return $reply;
+    }
+
     public function update(SongUpdateRequest $request)
     {
         // Don't use SongRepository::findMany() because it'd be already catered to the current user.

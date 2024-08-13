@@ -57,6 +57,8 @@ class Http {
   }
 
   public request<T> (method: Method, url: string, data: Record<string, any> = {}, onUploadProgress?: any) {
+    console.log("reached this.request, going to client.request in index");
+    console.log("probably uses URL="+url+" to reach index");
     return this.client.request({
       url,
       data,
@@ -73,7 +75,17 @@ class Http {
     return (await this.request<T>('post', url, data, onUploadProgress)).data
   }
 
+  // http.put<SongUpdateResult>('songs', {
+  //   data,
+  //   songs: songsToUpdate.map(song => song.id)
+  // })
+
+  // public async apifetch<T> (url: string, data: any) {
+  //   return (await this.request<T>('apifetch', url, data)).data
+  // }
+
   public async put<T> (url: string, data: Record<string, any>) {
+    console.log("reached put in http, received "+url+" and "+data);
     return (await this.request<T>('put', url, data)).data
   }
 
