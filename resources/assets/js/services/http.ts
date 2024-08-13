@@ -58,7 +58,7 @@ class Http {
 
   public request<T> (method: Method, url: string, data: Record<string, any> = {}, onUploadProgress?: any) {
     console.log("reached this.request, going to client.request in index");
-    console.log("probably uses URL="+url+" to reach index");
+    console.log("uses URL="+url+" to reach index");
     return this.client.request({
       url,
       data,
@@ -71,8 +71,9 @@ class Http {
     return (await this.request<T>('get', url)).data
   }
 
-  public async lyricsget<T> (url: string) {
-    return (await this.request<T>('get', url)).data
+  public async lyricsget<T> (url: string, data: Record<string, any>) {
+    console.log("reached lyricsGet with: "+data);
+    return (await this.request<T>('get', url, data)).data
   }
 
   public async post<T> (url: string, data: Record<string, any> = {}, onUploadProgress?: any) {

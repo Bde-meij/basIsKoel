@@ -121,6 +121,8 @@ Route::prefix('api')->middleware('api')->group(static function (): void {
 
         // call 'update' function within songcontroller 
         Route::put('songs', [SongController::class, 'update']);
+        Route::get('songs', [SongController::class, 'apifetch']);
+
         Route::delete('songs', [SongController::class, 'destroy']);
         Route::post('upload', UploadController::class);
 
@@ -131,7 +133,7 @@ Route::prefix('api')->middleware('api')->group(static function (): void {
         Route::post('interaction/batch/unlike', UnlikeMultipleSongsController::class);
 
         // Route::lyricsget('songs', [SongController::class, 'apifetch']);
-        Route::get('songs', [SongController::class, 'apifetch']);
+        // Route::get('songs/{artist}/{title}', [SongController::class, 'apifetch']);
         Route::get('songs/recently-played', FetchRecentlyPlayedSongController::class);
         Route::get('songs/favorite', FetchFavoriteSongsController::class);
 

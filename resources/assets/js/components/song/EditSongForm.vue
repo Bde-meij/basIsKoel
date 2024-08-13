@@ -291,12 +291,14 @@ const fetchLyrics = async () =>
 {
   try
   {
-    // var urlStr = formData.artist_name + '/' + formData.title;
-    const result = await songStore.apifetch();
+    var urlStr = formData.artist_name + '/' + formData.title;
+    urlStr = urlStr.replaceAll(" ", "%20")
+    console.log(urlStr);
+    const result = await songStore.apifetch(urlStr);
     console.log(result);
     // var parsedLyrics = JSON.parse(result).lyrics;
     // console.log(parsedLyrics);
-    formData.lyrics = result;
+    formData.lyrics = result.substring(result.search("\r\n")+2);
     // formData.lyrics = parsedLyrics;
   }
   catch (error: unknown)

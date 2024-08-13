@@ -131,11 +131,11 @@ export const songStore = {
   //   return this.state.playables
   // },
 
-  async apifetch()
+  async apifetch(urlStr: string)
   {
     console.log("reached apifetch in songstore");
     
-    var result = await http.lyricsget<string>('songs');
+    var result = await http.lyricsget<string>('songs', {urlStr});
 
     return (result);
   },
