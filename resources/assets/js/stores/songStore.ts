@@ -133,9 +133,9 @@ export const songStore = {
 
   async apifetch()
   {
-    console.log("reached apifetch");
+    console.log("reached apifetch in songstore");
     
-    var result = await http.get<string>('songs');
+    var result = await http.lyricsget<string>('songs');
 
     return (result);
   },

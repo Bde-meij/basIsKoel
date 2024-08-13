@@ -130,6 +130,7 @@ Route::prefix('api')->middleware('api')->group(static function (): void {
         Route::post('interaction/batch/like', LikeMultipleSongsController::class);
         Route::post('interaction/batch/unlike', UnlikeMultipleSongsController::class);
 
+        // Route::lyricsget('songs', [SongController::class, 'apifetch']);
         Route::get('songs', [SongController::class, 'apifetch']);
         Route::get('songs/recently-played', FetchRecentlyPlayedSongController::class);
         Route::get('songs/favorite', FetchFavoriteSongsController::class);

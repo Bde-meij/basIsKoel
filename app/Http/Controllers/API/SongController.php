@@ -52,10 +52,51 @@ class SongController extends Controller
     }
 
     public function apifetch()
-    {
-        $reply = "reached apifetch in php!";
-        return $reply;
-    }
+{
+    // echo "HELLO";
+    // echo "HELLO";
+    // echo "HELLO";
+    // echo $urlStr;
+    $url = "https://api.lyrics.ovh/v1/Ozzy%20Osbourne/Killer%20of%20Giants";
+    $curl = curl_init();
+
+    curl_setopt($curl, CURLOPT_URL, $url);
+    curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
+
+    $response = curl_exec($curl);
+    // if ($response === false) {
+    //     echo "cURL Error: " . curl_error($curl);
+    //     curl_close($curl);
+    //     return null;
+    // }
+
+    $retVal = json_decode($response, true); // Decoding as an array for easy printing
+    // if (json_last_error() !== JSON_ERROR_NONE) {
+    //     echo "JSON Decode Error: " . json_last_error_msg();
+    //     curl_close($curl);
+    //     return null;
+    // }
+
+    curl_close($curl);
+    // print_r($retVal); // This will show the content of $retVal if it's an array
+    return $retVal['lyrics'];
+    // return $response;
+}
+
+    // public function apifetch()
+    // {
+    //     $url = "https://api.lyrics.ovh/v1/Ozzy%20Osbourne/Killer%20of%20Giants";
+    //     $curl = curl_init();
+
+    //     curl_setopt($curl, CURLOPT_URL, $url);
+    //     curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+
+    //     $retVal = json_decode(curl_exec($curl));
+    //     curl_close($curl);
+    //     echo $retVal;
+    //     return $retVal;
+    // }
 
     public function update(SongUpdateRequest $request)
     {

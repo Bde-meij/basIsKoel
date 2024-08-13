@@ -274,20 +274,30 @@ const maybeClose = async () => {
 //   }
 // }
 
+  // const result = await songStore.apifetch();
+  // console.log(result);
+  // var ressie = JSON.parse(result);
+  // console.log(ressie);
+  // await getMessage();
+
+      // var urlStr = formData.artist_name + '/' + formData.title;
+    // var rawLyrics = await (await fetch('https://api.lyrics.ovh/v1/'+urlStr)).text();
+    // // console.log(rawLyrics);
+
+        // // console.log(parsedLyrics);
+    // parsedLyrics = parsedLyrics.substr(parsedLyrics.search("\r\n")+2);
+
 const fetchLyrics = async () =>
 {
-  const result = await songStore.apifetch();
-  console.log(result);
-  // await getMessage();
   try
   {
-    var urlStr = formData.artist_name + '/' + formData.title;
-    var rawLyrics = await (await fetch('https://api.lyrics.ovh/v1/'+urlStr)).text();
-    // console.log(rawLyrics);
-    var parsedLyrics = JSON.parse(rawLyrics).lyrics;
+    // var urlStr = formData.artist_name + '/' + formData.title;
+    const result = await songStore.apifetch();
+    console.log(result);
+    // var parsedLyrics = JSON.parse(result).lyrics;
     // console.log(parsedLyrics);
-    parsedLyrics = parsedLyrics.substr(parsedLyrics.search("\r\n")+2);
-    formData.lyrics = parsedLyrics;
+    formData.lyrics = result;
+    // formData.lyrics = parsedLyrics;
   }
   catch (error: unknown)
   {
