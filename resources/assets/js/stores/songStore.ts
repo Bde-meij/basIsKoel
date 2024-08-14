@@ -124,19 +124,12 @@ export const songStore = {
       timestamp: song.play_start_time
     })
   },
-
-  // get<T = any, R = AxiosResponse<T>>(url: string, config?: AxiosRequestConfig): Promise<R>;
-  // async fetch () {
-  //   this.state.playables = songStore.syncWithVault(await http.get<Playable[]>('songs/recently-played'))
-  //   return this.state.playables
-  // },
-
+  
   async apifetch(urlStr: string)
   {
     console.log("reached apifetch in songstore");
-    
-    var result = await http.lyricsget<string>('songs', {urlStr});
-
+    var result = await http.lyricsget<string>('songs', urlStr);
+    // var result = await http.lyricsget<string>(`songs?urlStr=${encodeURIComponent(urlStr)}`);
     return (result);
   },
 

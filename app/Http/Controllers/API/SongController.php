@@ -52,46 +52,15 @@ class SongController extends Controller
         return SongResource::make($this->songRepository->getOne($song->id, $this->user));
     }
 
-    // echo "HELLO";
-    // echo "HELLO";
-    // echo "HELLO";
-    // echo $urlStr;
-
-        // if ($response === false) {
-    //     echo "cURL Error: " . curl_error($curl);
-    //     curl_close($curl);
-    //     return null;
-    // }
-
-        // if (json_last_error() !== JSON_ERROR_NONE) {
-    //     echo "JSON Decode Error: " . json_last_error_msg();
-    //     curl_close($curl);
-    //     return null;
-    // }
-
-    // return $response;
-
-      // public function apifetch()
-    // {
-    //     $url = "https://api.lyrics.ovh/v1/Ozzy%20Osbourne/Killer%20of%20Giants";
-    //     $curl = curl_init();
-
-    //     curl_setopt($curl, CURLOPT_URL, $url);
-    //     curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
-
-    //     $retVal = json_decode(curl_exec($curl));
-    //     curl_close($curl);
-    //     echo $retVal;
-    //     return $retVal;
-    // }
-
-    public function apifetch(LyricsRequest $request)
+    // public function apifetch(Request $request)
+    public function apifetch()
     {
-        // $urlPart = $request->query('urlStr');
-        $url = "https://api.lyrics.ovh/v1/"+$artist+'/'+$title;
+        $hardcodeUrl = "https://api.lyrics.ovh/v1/Ozzy%20Osbourne/Let%20Me%20Hear%20You%20Scream";
+        // $urlPart = $request->urlStr;
+        // $url = "https://api.lyrics.ovh/v1/"+$urlPart;
         $curl = curl_init();
 
-        curl_setopt($curl, CURLOPT_URL, $url);
+        curl_setopt($curl, CURLOPT_URL, $hardcodeUrl);
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
 
@@ -100,9 +69,8 @@ class SongController extends Controller
         $retVal = json_decode($response, true); 
 
         curl_close($curl);
-        // return $urlPart;
+
         return $retVal['lyrics'];
-        
     }
 
     public function update(SongUpdateRequest $request)

@@ -71,23 +71,14 @@ class Http {
     return (await this.request<T>('get', url)).data
   }
 
-  public async lyricsget<T> (url: string, data: Record<string, any>) {
-    console.log("reached lyricsGet with: "+data);
-    return (await this.request<T>('get', url, data)).data
+  public async lyricsget<T> (url: string, urlStr: string) {
+    console.log("reached lyricsget with "+urlStr);
+    return (await this.request<T>('get', url, {urlStr})).data
   }
 
   public async post<T> (url: string, data: Record<string, any> = {}, onUploadProgress?: any) {
     return (await this.request<T>('post', url, data, onUploadProgress)).data
   }
-
-  // http.put<SongUpdateResult>('songs', {
-  //   data,
-  //   songs: songsToUpdate.map(song => song.id)
-  // })
-
-  // public async apifetch<T> (url: string, data: any) {
-  //   return (await this.request<T>('apifetch', url, data)).data
-  // }
 
   public async put<T> (url: string, data: Record<string, any>) {
     console.log("reached put in http, received "+url+" and "+data);

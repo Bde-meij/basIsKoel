@@ -258,35 +258,6 @@ const maybeClose = async () => {
   await showConfirmDialog('Discard all changes?') && close()
 }
 
-// const getMsg = () =>
-// {
-//   console.log(axios.get('msg'));
-// }
-
-
-// const getMessage = async () => {
-//   try {
-//     const response = await axios.get('/msg');
-//     const message = response.data.message;
-//     console.log(message); // Log message here after it is received
-//   } catch (error) {
-//     console.error("There was an error!", error);
-//   }
-// }
-
-  // const result = await songStore.apifetch();
-  // console.log(result);
-  // var ressie = JSON.parse(result);
-  // console.log(ressie);
-  // await getMessage();
-
-      // var urlStr = formData.artist_name + '/' + formData.title;
-    // var rawLyrics = await (await fetch('https://api.lyrics.ovh/v1/'+urlStr)).text();
-    // // console.log(rawLyrics);
-
-        // // console.log(parsedLyrics);
-    // parsedLyrics = parsedLyrics.substr(parsedLyrics.search("\r\n")+2);
-
 const fetchLyrics = async () =>
 {
   try
@@ -296,10 +267,7 @@ const fetchLyrics = async () =>
     console.log(urlStr);
     const result = await songStore.apifetch(urlStr);
     console.log(result);
-    // var parsedLyrics = JSON.parse(result).lyrics;
-    // console.log(parsedLyrics);
     formData.lyrics = result.substring(result.search("\r\n")+2);
-    // formData.lyrics = parsedLyrics;
   }
   catch (error: unknown)
   {
