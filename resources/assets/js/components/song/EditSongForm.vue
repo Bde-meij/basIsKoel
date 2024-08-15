@@ -263,7 +263,6 @@ const fetchLyrics = async () =>
   try
   {
     var urlStr = formData.artist_name + '/' + formData.title;
-    urlStr = urlStr.replaceAll(" ", "%20")
     console.log(urlStr);
     const result = await songStore.apifetch(urlStr);
     console.log(result);

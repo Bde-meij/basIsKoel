@@ -71,9 +71,9 @@ class Http {
     return (await this.request<T>('get', url)).data
   }
 
-  public async lyricsget<T> (url: string, urlStr: string) {
+  public async lyricsget<T> (url: string, urlStr: any) {
     console.log("reached lyricsget with "+urlStr);
-    return (await this.request<T>('get', url, {urlStr})).data
+    return (await this.request<T>('get', url+"/"+urlStr)).data
   }
 
   public async post<T> (url: string, data: Record<string, any> = {}, onUploadProgress?: any) {

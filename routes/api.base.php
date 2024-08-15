@@ -120,10 +120,9 @@ Route::prefix('api')->middleware('api')->group(static function (): void {
             ->except('update', 'destroy')
             ->where(['song' => Song::ID_REGEX]);
 
-        // call 'update' function within songcontroller 
+        // calls 'update' function within songcontroller 
         Route::put('songs', [SongController::class, 'update']);
-        Route::get('songs', [SongController::class, 'apifetch']);
-        // Route::get('songs/{urlStr}', [SongController::class, 'apifetch']);
+        Route::get('songs/{artist}/{title}', [SongController::class, 'apifetch']);
 
         Route::delete('songs', [SongController::class, 'destroy']);
         Route::post('upload', UploadController::class);
@@ -218,9 +217,4 @@ Route::prefix('api')->middleware('api')->group(static function (): void {
     });
 
     Route::get('demo/credits', FetchDemoCreditsController::class);
-
-    // a route which expects a ::return(arg, [class, functionName])
-    // Route::apiResource('msg', [UnnamedController::class]);
-    // Route::apiResource('msg', UnnamedController::class);
-    // Route::apiResource('users', UserController::class);
 });

@@ -52,25 +52,24 @@ class SongController extends Controller
         return SongResource::make($this->songRepository->getOne($song->id, $this->user));
     }
 
-    // public function apifetch(Request $request)
-    public function apifetch()
+    public function apifetch($artist, $title)
     {
-        $hardcodeUrl = "https://api.lyrics.ovh/v1/Ozzy%20Osbourne/Let%20Me%20Hear%20You%20Scream";
-        // $urlPart = $request->urlStr;
-        // $url = "https://api.lyrics.ovh/v1/"+$urlPart;
+        $tmp = $artist . "/" . $title;
+        $urlPart = str_replace(" ", "%20", $tmp);
+        $url = "https://api.lyrics.ovh/v1/" . $urlPart;
         $curl = curl_init();
 
-        curl_setopt($curl, CURLOPT_URL, $hardcodeUrl);
+        curl_setopt($curl, CURLOPT_URL, $url);
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
 
         $response = curl_exec($curl);
 
-        $retVal = json_decode($response, true); 
+        $decodedArray = json_decode($response, true); 
 
         curl_close($curl);
 
-        return $retVal['lyrics'];
+        return $decodedArray['lyrics'];
     }
 
     public function update(SongUpdateRequest $request)
