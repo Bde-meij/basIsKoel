@@ -29,6 +29,11 @@ export interface SongUpdateResult {
   }
 }
 
+// export interface somestruct
+// {
+//   text: string;
+// }
+
 export interface SongListPaginateParams extends Record<string, any> {
   sort: MaybeArray<PlayableListSortField>
   order: SortOrder
@@ -119,12 +124,22 @@ export const songStore = {
       timestamp: song.play_start_time
     })
   },
+  
+  async apifetch(urlStr: string)
+  {
+    // console.log("reached apifetch in songstore");
+    var result = await http.lyricsget<string>('songs', urlStr);
+    return (result);
+  },
 
   async update (songsToUpdate: Song[], data: SongUpdateData) {
+    console.log("backend trail: songstore, update()");
     if (songsToUpdate.some(song => !isSong(song))) {
       throw 'Only songs can be updated.'
     }
 
+
+    console.log("sending "+data+" and "+songsToUpdate.map(song => song.id)+" to http.put");
     const result = await http.put<SongUpdateResult>('songs', {
       data,
       songs: songsToUpdate.map(song => song.id)

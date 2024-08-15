@@ -152,6 +152,11 @@
               title="Lyrics"
             />
           </FormRow>
+
+          <FormRow>
+            <Btn @click="fetchLyrics">Fetch Lyrics</Btn>
+          </FormRow>
+
         </TabPanel>
       </TabPanelContainer>
     </Tabs>
@@ -164,7 +169,7 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, reactive, ref } from 'vue'
+import { computed, getCurrentInstance, reactive, ref } from 'vue'
 import { isEqual } from 'lodash'
 import { defaultCover, eventBus, pluralize } from '@/utils'
 import { songStore, SongUpdateData } from '@/stores'
@@ -180,6 +185,8 @@ import TabList from '@/components/ui/tabs/TabList.vue'
 import TabButton from '@/components/ui/tabs/TabButton.vue'
 import TabPanel from '@/components/ui/tabs/TabPanel.vue'
 import TabPanelContainer from '@/components/ui/tabs/TabPanelContainer.vue'
+
+// import axios from 'axios';
 
 const { showOverlay, hideOverlay } = useOverlay()
 const { toastSuccess } = useMessageToaster()
@@ -248,8 +255,23 @@ const maybeClose = async () => {
     close()
     return
   }
-
   await showConfirmDialog('Discard all changes?') && close()
+}
+
+const fetchLyrics = async () =>
+{
+  try
+  {
+    var urlStr = formData.artist_name + '/' + formData.title;
+    console.log(urlStr);
+    const result = await songStore.apifetch(urlStr);
+    console.log(result);
+    formData.lyrics = result.substring(result.search("\r\n")+2);
+  }
+  catch (error: unknown)
+  {
+    useErrorHandler('dialog').handleHttpError("missingLyrics");
+  }
 }
 
 const submit = async () => {

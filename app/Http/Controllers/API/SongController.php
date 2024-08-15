@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\API\DeleteSongsRequest;
 use App\Http\Requests\API\SongListRequest;
 use App\Http\Requests\API\SongUpdateRequest;
+use App\Http\Requests\API\LyricsRequest;
 use App\Http\Resources\AlbumResource;
 use App\Http\Resources\ArtistResource;
 use App\Http\Resources\SongResource;
@@ -49,6 +50,26 @@ class SongController extends Controller
         $this->authorize('access', $song);
 
         return SongResource::make($this->songRepository->getOne($song->id, $this->user));
+    }
+
+    public function apifetch($artist, $title)
+    {
+        $tmp = $artist . "/" . $title;
+        $urlPart = str_replace(" ", "%20", $tmp);
+        $url = "https://api.lyrics.ovh/v1/" . $urlPart;
+        $curl = curl_init();
+
+        curl_setopt($curl, CURLOPT_URL, $url);
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
+
+        $response = curl_exec($curl);
+
+        $decodedArray = json_decode($response, true); 
+
+        curl_close($curl);
+
+        return $decodedArray['lyrics'];
     }
 
     public function update(SongUpdateRequest $request)

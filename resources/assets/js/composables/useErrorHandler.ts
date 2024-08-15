@@ -16,8 +16,13 @@ export const useErrorHandler = (driver: ErrorMessageDriver = 'toast') => {
 
   const showGenericError = () => showError('An unknown error occurred.')
 
+  const showLyricsError = () => showError('Could not find lyrics, try updating the artist and title')
+
   const handleHttpError = (error: unknown, statusMessageMap: StatusMessageMap = {}) => {
     logger.error(error)
+
+    if (error == "missingLyrics")
+      return (showLyricsError());
 
     if (!axios.isAxiosError(error) || !error.response?.status) {
       return showGenericError()

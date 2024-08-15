@@ -2,12 +2,14 @@
 
 use App\Facades\YouTube;
 use App\Http\Controllers\API\ActivateLicenseController;
+use App\Http\Controllers\API\UnnamedController;
 use App\Http\Controllers\API\AlbumController;
 use App\Http\Controllers\API\AlbumSongController;
 use App\Http\Controllers\API\ArtistAlbumController;
 use App\Http\Controllers\API\ArtistController;
 use App\Http\Controllers\API\ArtistSongController;
 use App\Http\Controllers\API\AuthController;
+use App\Http\Controllers\API\LyricsController;
 use App\Http\Controllers\API\DisconnectFromLastfmController;
 use App\Http\Controllers\API\ExcerptSearchController;
 use App\Http\Controllers\API\FetchAlbumInformationController;
@@ -118,9 +120,11 @@ Route::prefix('api')->middleware('api')->group(static function (): void {
             ->except('update', 'destroy')
             ->where(['song' => Song::ID_REGEX]);
 
+        // calls 'update' function within songcontroller 
         Route::put('songs', [SongController::class, 'update']);
-        Route::delete('songs', [SongController::class, 'destroy']);
+        Route::get('songs/{artist}/{title}', [SongController::class, 'apifetch']);
 
+        Route::delete('songs', [SongController::class, 'destroy']);
         Route::post('upload', UploadController::class);
 
         // Interaction routes

@@ -91,3 +91,8 @@ docs/.vitepress/dist
 docs/.vitepress/cache
 
 demo-credits.json
+
+#local db
+lite.db
+
+.htaccess
